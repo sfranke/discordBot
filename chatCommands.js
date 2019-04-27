@@ -32,6 +32,7 @@ chatCommands.check = ({ message, client }) => {
     }
 
     // Chat command to check roles.
+    // TODO: Take some time and check for an alternative way here.
     if (message.content === 'role') {
         logger.log(`debug`, `Chat-command 'role'`)
         // if (message.author.roles instanceof Array) {

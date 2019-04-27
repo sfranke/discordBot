@@ -5,6 +5,7 @@ const logger = require(`./logger`)
 const uri = 'mongodb://localhost:27017/discordBot'
 
 // Creata a new Database, only executes if there is no database yet.
+// TODO: Promisify this one please.
 database.createDatabase = (callback) => {
     mongoClient.connect(uri, (err, db) => {
         if (err) callback(err, null)
@@ -13,6 +14,7 @@ database.createDatabase = (callback) => {
 }
 
 // Update an existing dataset with the data you can fetch from the API.
+// TODO: Promisify this one please.
 database.updateUser = (clientObject, callback) => {
     mongoClient.connect(uri, (err, db) => {
         if (err) logger.log('error', 'While connecting to DB during updateAccountInformation.')
@@ -52,6 +54,7 @@ database.updateUser = (clientObject, callback) => {
                         db.close()
                     }).catch((reject) => {
                         logger.log(`${new Date().toJSON()} reject:`, reject)
+                        // TODO: No callback here? This one should reject
                         db.close()
                     }
                 )
@@ -64,6 +67,7 @@ database.updateUser = (clientObject, callback) => {
 }
 
  // Get client by clientId.
+ // TODO: Promisify this one please.
 database.getClientByUid = (uid, callback) => {
     mongoClient.connect(uri, (err, db) => {
         if (err) logger.log('error', 'While connecting to DB during getApiKey.')

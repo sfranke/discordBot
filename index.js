@@ -1,12 +1,10 @@
 const Discord = require(`discord.js`)
-const api = require(`./api`)
 const database = require(`./database`)
 const apiKey = require(`./apiKey`)
 const chatCommands = require(`./chatCommands`)
 const logger = require(`./logger`)
 const helper = require(`./helper`)
 const config = helper.getConfig()
-const roleId = config.roleId
 const admins = config.admins
 
 const client = new Discord.Client({
@@ -16,10 +14,11 @@ const client = new Discord.Client({
     messageSweepInterval: 60,
 })
 
-const TOKEN = process.env.JERRY_TOKEN
 // Secret login token.
+const TOKEN = process.env.JERRY_TOKEN
 client.login(TOKEN)
 
+// TODO: Promisify this one please.
 client.on(`ready`, async () => {
     database.createDatabase((err, res) => {
         if (err) logger.log(`debug`, err)
@@ -66,12 +65,7 @@ client.on("error", (e) => logger.log(`error`, `Client event 'error': ${e}`))
 client.on("warn", (e) => logger.log(`warning`, `Client event 'warning': ${e}`))
 client.on("debug", (e) => logger.log(`debug`, `Client event 'debug': ${e}`))
 
-// Detectingthe presence of a user.. we might have to check the previous state here as well
-// to ensure if was `offline` before and is `online` now.. Do I really need to do that?!
-// Do I really want to do this? One way would be  wo store that information in the local database
-// and then check the database everytime a state changes for the database informtaion.. not really
-
-// a problem but I would like to find a better way!!
+// TODO: Please add documentation here.
 client.on('presenceUpdate', (e) => {
     // Frozen presence is the last state before the current one (the one the user just changed to).
     // When a user comes online - Recheck the current API key.
@@ -82,5 +76,5 @@ client.on('presenceUpdate', (e) => {
     }
 })
 
-// Emmiting events for testing.. Where 'guildMemberAdd' can be any envent.
+// Emmitting events for testing.. Where 'guildMemberAdd' can be any event.
 // client.emit("guildMemberAdd", message.member)

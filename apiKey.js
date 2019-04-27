@@ -1,3 +1,4 @@
+// TODO: Try utilizing a named export here.
 const apiKey = exports
 const api = require(`./api`)
 const database = require(`./database`)
@@ -7,6 +8,8 @@ const helper = require(`./helper`)
 const config = helper.getConfig()
 const roleId = config.roleId
 
+// TODO: Add documentation here.
+// TODO: Please promisify.
 const revokeGuildMemberAccess = ({ guildMember }) => {
     logger.log(`debug`, `guildMember: ${guildMember}`)
     try {
@@ -22,6 +25,8 @@ const revokeGuildMemberAccess = ({ guildMember }) => {
     }
 }
 
+// TODO: Add documentation here.
+// TODO: Please promisify.
 const revokeMessageMemberRole = ({ message }) => {
     logger.log(`debug`, `Method call 'revokeMessageMemberRole' message: ${message}`)
     try {
@@ -39,6 +44,8 @@ const revokeMessageMemberRole = ({ message }) => {
     }
 }
 
+// TODO: Add documentation here.
+// TODO: Please promisify.
 apiKey.recheck = ({ guildMember }) => {
     // Rechecking API key on reconnect
     logger.log(`debug`, `GuildMember: ` + util.inspect(guildMember));
@@ -52,7 +59,7 @@ apiKey.recheck = ({ guildMember }) => {
                 // TODO: 3(three) cases here.
                 // 1. Key is vaild - update current data.
                 // 2. Invalid API key - Remove from database (soft delete?)
-                // API not reachable.. keep current data and ignore for now? Error habdling needs to be
+                // API not reachable.. keep current data and ignore for now? Error handling needs to be
                 // defined here!!!
                 logger.log(`debug`, `Found account token: ${doc.accountToken}`);
                 api.account({ userObject: doc })
@@ -87,11 +94,11 @@ apiKey.recheck = ({ guildMember }) => {
                 revokeGuildMemberAccess({ guildMember });
             }
         }
-        // Database is working as expected and we don't know this user. What's next? Maybe send an invite?
         if (err === null && doc === null) {
             logger.log(`debug`, `User without data - revoking Role: ${guildMember}`);
             // Make sure to remove guild roles if they are present
             revokeGuildMemberAccess({ guildMember });
+            // TODO: Send a new intive to the user.
         }
     });
 }
@@ -111,7 +118,7 @@ apiKey.validateAccountData = ({ message }) => {
                         clientNickname: message.author.username,
                     }
                     database.updateUser(user, (err, res) => {
-                        // Compare user form database with user from chat. Then act upon it
+                        // Compare user from database with user from chat. Then act upon it
                         logger.log(`debug`, `Method call 'database.udateUser': ${res}`)
                         logger.log(`debug`, `Method call 'database.udateUser': ${message.author}`)
 

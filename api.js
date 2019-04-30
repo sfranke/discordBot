@@ -24,7 +24,7 @@ api.account = ({ userObject }) => {
         }
 
         https.get(options, (response) => {
-            let chunkedData;
+            let chunkedData = '';
             response.on('data', (data) => {
                 logger.log(`debug`, `Resonse.on data: ${data}`)
                 chunkedData += data
